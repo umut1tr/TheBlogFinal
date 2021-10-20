@@ -13,7 +13,7 @@ namespace TheBlogFinal.Models
     {
 
         public int Id { get; set; } // primary key
-        public string AuthorId { get; set; } // foreign key
+        public string BlogUserId { get; set; } // foreign key
 
 
         [Required] // makes sure no Blog will be created without the Name property
@@ -42,7 +42,7 @@ namespace TheBlogFinal.Models
         public IFormFile Image { get; set; }
 
         //Navigation property
-        public virtual BlogUser Author { get; set; } // parent class ,, USERNAME is UNIQUE and will be used to track
+        public virtual BlogUser BlogUser { get; set; } // parent class ,, USERNAME is UNIQUE and will be used to track
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>(); // HashSet implementing ICollection for Posts
 
     }

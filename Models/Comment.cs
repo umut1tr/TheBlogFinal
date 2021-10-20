@@ -13,7 +13,7 @@ namespace TheBlogFinal.Models
 
         public int Id { get; set; } // primary key
         public int PostId { get; set; } // foreign key to Post
-        public string AuthorId { get; set; } // foreign key
+        public string BlogUserId { get; set; } // foreign key
         public string ModeratorId { get; set; }
 
         [Required]
@@ -35,7 +35,7 @@ namespace TheBlogFinal.Models
 
         // Navigation properties
         public virtual Post Post { get; set; } 
-        public virtual BlogUser Author { get; set; } // anyone registered on the site which can then post comments on posts etc.
+        public virtual BlogUser BlogUser { get; set; } // anyone registered on the site which can then post comments on posts etc.
         public virtual BlogUser Moderator { get; set; } // special user of role mod
 
     }

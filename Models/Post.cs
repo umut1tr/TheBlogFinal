@@ -15,7 +15,7 @@ namespace TheBlogFinal.Models
 
         public int Id { get; set; } // primary key
         public int BlogId { get; set; } // foreign key from Blog ID
-        public string AuthorId { get; set; } // foreign key for Author
+        public string BlogUserId { get; set; } // foreign key for Author
 
         [Required]
         [StringLength(75, ErrorMessage = "The {0} must be at least {2} and no more than {1} characters long", MinimumLength = 2)] // index 0 = Title , index 1 = MaxLength , index 2 = MinLength
@@ -50,7 +50,7 @@ namespace TheBlogFinal.Models
 
         //Navigation property
         public virtual Blog Blog { get; set; } // Blog is Parentclass of Post
-        public virtual BlogUser Author { get; set; } // role of admin? or author ? lets see
+        public virtual BlogUser BlogUser { get; set; } // role of admin? or author ? lets see
 
         public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>(); // HashSet implementing ICollection for Tags
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
