@@ -14,6 +14,8 @@ namespace TheBlogFinal.Models
     {
 
         public int Id { get; set; } // primary key
+
+        [Display(Name = "Blog Name")]
         public int BlogId { get; set; } // foreign key from Blog ID
         public string BlogUserId { get; set; } // foreign key for Author
 
