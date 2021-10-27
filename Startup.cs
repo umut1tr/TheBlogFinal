@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheBlogFinal.Data;
 using TheBlogFinal.Models;
+using TheBlogFinal.Services;
 
 namespace TheBlogFinal
 {
@@ -28,10 +29,7 @@ namespace TheBlogFinal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-
+           
 
             // custom PostGRE connect
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -40,8 +38,7 @@ namespace TheBlogFinal
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            
 
             // changing the default identity to BlogUser with Identity as Role - CUSTOM
             services.AddIdentity<BlogUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -51,6 +48,12 @@ namespace TheBlogFinal
             services.AddControllersWithViews();
 
             services.AddRazorPages();
+
+
+            // Register custom DataService class
+            services.AddScoped<DataService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
