@@ -32,6 +32,7 @@ namespace TheBlogFinal
             //    options.UseSqlServer(
             //        Configuration.GetConnectionString("DefaultConnection")));
 
+
             // custom PostGRE connect
             services.AddDbContext<ApplicationDbContext>(options =>
                   options.UseNpgsql(
