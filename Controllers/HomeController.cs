@@ -23,10 +23,16 @@ namespace TheBlogFinal.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
-            return View();
+            return View("About");
         }
+
+        public IActionResult Contact()
+        {
+            return View("Contact");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
