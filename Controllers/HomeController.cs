@@ -15,6 +15,7 @@ namespace TheBlogFinal.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBlogEmailSender _emailSender;
+        
 
         public HomeController(ILogger<HomeController> logger, IBlogEmailSender emailSender)
         {

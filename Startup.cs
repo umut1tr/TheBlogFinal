@@ -58,6 +58,9 @@ namespace TheBlogFinal
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddScoped<IBlogEmailSender, EmailService>();
 
+            // Register Image Service
+            services.AddScoped<IImageService, BasicImageService>();
+
 
         }
 
