@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using TheBlogFinal.Data;
 using TheBlogFinal.Models;
 using TheBlogFinal.Services;
+using TheBlogFinal.ViewModels;
 
 namespace TheBlogFinal
 {
@@ -30,7 +31,6 @@ namespace TheBlogFinal
         public void ConfigureServices(IServiceCollection services)
         {
            
-
             // custom PostGRE connect
             services.AddDbContext<ApplicationDbContext>(options =>
                   options.UseNpgsql(
@@ -39,12 +39,12 @@ namespace TheBlogFinal
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             
-
             // changing the default identity to BlogUser with Identity as Role - CUSTOM
             services.AddIdentity<BlogUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            
             services.AddControllersWithViews();
 
             services.AddRazorPages();
@@ -52,6 +52,11 @@ namespace TheBlogFinal
 
             // Register custom DataService class
             services.AddScoped<DataService>();
+
+
+            // Register a preconfigured instance of the MailSettings class
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddScoped<IBlogEmailSender, EmailService>();
 
 
         }
