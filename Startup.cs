@@ -61,6 +61,9 @@ namespace TheBlogFinal
             // Register Image Service
             services.AddScoped<IImageService, BasicImageService>();
 
+            // Register Slug Service
+            services.AddScoped<ISlugService, BasicSlugService > ();
+
 
         }
 
