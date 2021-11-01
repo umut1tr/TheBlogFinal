@@ -26,12 +26,7 @@
     <link href="~/css/styles.css" rel="stylesheet" />
 
 
-    <!-- include libraries(jQuery, bootstrap) -->
-    <script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
-    <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/summernote-lite.js"></script>
-    <link href="~/css/summernote-lite.css" rel="stylesheet" />
+    
 
 </head>
 
@@ -50,6 +45,7 @@
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-controller="Home" asp-action="About">About</a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
+                <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
@@ -114,7 +110,9 @@
     <!-- Core theme JS-->
     <script src="~/js/scripts.js"></script>
 
-    
+    <!-- tiny MCE editor-->
+    <script src="https://cdn.tiny.cloud/1/6iw5rg75w5104yh18z4u0h4vdahhxhpnwpkh6bc6pdzd2s6d/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 
