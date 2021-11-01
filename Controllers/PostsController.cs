@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +18,15 @@ namespace TheBlogFinal.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ISlugService _slugService;
         private readonly IImageService _imageService;
+        private readonly UserManager<BlogUser> _userManager;
 
-        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService)
+
+        public PostsController(ApplicationDbContext context, ISlugService slugService, IImageService imageService, UserManager<BlogUser> userManager)
         {
             _context = context;
             _slugService = slugService;
             _imageService = imageService;
+            _userManager = userManager;
         }
 
         // GET: Posts
@@ -33,9 +37,9 @@ namespace TheBlogFinal.Controllers
         }
 
         // GET: Posts/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string slug)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(slug))
             {
                 return NotFound();
             }
@@ -43,7 +47,8 @@ namespace TheBlogFinal.Controllers
             var post = await _context.Posts
                 .Include(p => p.Blog)
                 .Include(p => p.BlogUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(p=> p.Tags)
+                .FirstOrDefaultAsync(m => m.Slug == slug);
             if (post == null)
             {
                 return NotFound();
@@ -72,6 +77,9 @@ namespace TheBlogFinal.Controllers
             {
                 post.Created = DateTime.Now;
 
+                var authorId = _userManager.GetUserId(User);
+                post.BlogUserId = authorId;
+
 
                 // Use the _imageService to store the incoming user specified image
                 post.ImageData = await _imageService.EncodeImageAsync(post.Image);
@@ -91,6 +99,20 @@ namespace TheBlogFinal.Controllers
                 post.Slug = slug;
 
                 _context.Add(post);
+                await _context.SaveChangesAsync();
+
+                // How do i loop over the incoming list of string?
+                foreach(var tagText in tagValues)
+                {
+                    _context.Add(new Tag()
+                    {
+                        PostId = post.Id,
+                        BlogUserId = authorId,
+                        Text = tagText
+                    });
+                }
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
