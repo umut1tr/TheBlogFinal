@@ -89,9 +89,25 @@ namespace TheBlogFinal.Controllers
                 // Create the slug an determine if it is unique
                 var slug = _slugService.UrlFriendly(post.Title);
 
+                //Create a variable to store whether an error has occured
+                var validationError = false;
+
+                //check if empty
+                if (string.IsNullOrEmpty(slug))
+                {
+                    validationError = true;
+                    ModelState.AddModelError("", "The Title you provided cannot be used as it results in an empty slug");                    
+                }
+
+                //Detect incoming duplicate Slugs
                 if (!_slugService.IsUnique(slug))
                 {
-                    ModelState.AddModelError("Title", "The Title you provided cannot be used as it results in a duplicate slug.");
+                    validationError = true;
+                    ModelState.AddModelError("Title", "The Title you provided cannot be used as it results in a duplicate slug.");                    
+                }
+
+                if (validationError)
+                {
                     ViewData["TagValues"] = string.Join(",", tagValues);
                     return View(post);
                 }
@@ -131,14 +147,16 @@ namespace TheBlogFinal.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts.Include(p => p.Tags).FirstOrDefaultAsync(p => p.Id == id);
+
             if (post == null)
             {
                 return NotFound();
             }
 
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Name", post.BlogId);
-            
+            ViewData["TagValues"] = string.Join(",", post.Tags.Select(t => t.Text));
+
             return View(post);
         }
 
@@ -147,7 +165,7 @@ namespace TheBlogFinal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,ReadyStatus")] Post post, IFormFile newImage)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BlogId,Title,Abstract,Content,ReadyStatus")] Post post, IFormFile newImage, List<string> tagValues)
         {
             if (id != post.Id)
             {
@@ -158,8 +176,8 @@ namespace TheBlogFinal.Controllers
             {
                 try
                 {
-
-                    var newPost = await _context.Posts.FindAsync(post.Id);
+                    //The originalPost
+                    var newPost = await _context.Posts.Include(p => p.Tags).FirstOrDefaultAsync(p=> p.Id == post.Id);
 
                     newPost.Updated = DateTime.Now;
                     newPost.Title = post.Title;
@@ -167,10 +185,43 @@ namespace TheBlogFinal.Controllers
                     newPost.Content = post.Content;
                     newPost.ReadyStatus = post.ReadyStatus;
 
+
+                    var newSlug = _slugService.UrlFriendly(post.Title);
+                    if(newSlug != newPost.Slug)
+                    {
+                        if (_slugService.IsUnique(newSlug))
+                        {
+                            newPost.Title = post.Title;
+                            newPost.Slug = newSlug;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Title", "This Title cannot be used as it results in a duplicate slug");
+                            ViewData["TagValues"] = string.Join(",", post.Tags.Select(t => t.Text));
+                            return View(post);
+                        }
+                    }
+
+
                     if(newImage is not null)
                     {
                         newPost.ImageData = await _imageService.EncodeImageAsync(newImage);
                         newPost.ContentType = _imageService.ContentType(newImage);
+                    }
+
+                    //Remove all Tags previously associated with this Post
+                    _context.Tags.RemoveRange(newPost.Tags);
+
+                    //Add in the new Tags from the Edit form
+                    foreach(var tagText in tagValues)
+                    {
+                        _context.Add(new Tag()
+                        {
+                            PostId = post.Id,
+                            BlogUserId = newPost.BlogUserId,
+                            Text = tagText
+
+                        });
                     }
 
                     
