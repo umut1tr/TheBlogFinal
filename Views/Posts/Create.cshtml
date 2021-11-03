@@ -94,8 +94,9 @@
 @section Scripts{
 
 
-    <script src="~/js/Custom.js"></script>
-
+    <script>
+        let tagValues = '@ViewData["TagValues"]';
+    </script>        
 
     <script>
         tinymce.init({
@@ -103,6 +104,6 @@
         });
     </script>
 
-
+    <script src="~/js/Custom.js"></script>
 
 }

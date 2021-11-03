@@ -98,8 +98,10 @@
 @section Scripts{
 
     <script>
-        let tagValue = '@ViewData["TagValues"]';
+        let tagValues = '@ViewData["TagValues"]';
+    </script>
 
+    <script>
         // default tinyEditor
         tinymce.init({
             selector: '#Content'
