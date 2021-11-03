@@ -36,6 +36,19 @@ namespace TheBlogFinal.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        //BlogPostIndex
+        public async Task<IActionResult> BlogPostIndex(int? id){
+
+            if(id is null)
+            {
+                return NotFound();
+            }
+
+            var posts = _context.Posts.Where(p => p.BlogId == id).ToList();
+
+            return View("Index", posts);
+        }
+
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(string slug)
         {
@@ -61,7 +74,7 @@ namespace TheBlogFinal.Controllers
         public IActionResult Create()
         {
             ViewData["BlogId"] = new SelectList(_context.Blogs, "Id", "Name");
-            ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["BlogUserId"] = new SelectList(_context.Users, "Id", "Id");            
 
             return View();
         }
@@ -100,11 +113,20 @@ namespace TheBlogFinal.Controllers
                 }
 
                 //Detect incoming duplicate Slugs
-                if (!_slugService.IsUnique(slug))
+                else if (!_slugService.IsUnique(slug))
                 {
                     validationError = true;
                     ModelState.AddModelError("Title", "The Title you provided cannot be used as it results in a duplicate slug.");                    
                 }
+
+                else if (slug.Contains("test"))
+                {
+                    validationError = true;
+                    ModelState.AddModelError("", "Uh-oh are you testing again??");
+                    ModelState.AddModelError("Title", "Title cannot contain the word test");
+                }
+
+
 
                 if (validationError)
                 {

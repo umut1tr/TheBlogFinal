@@ -1,10 +1,8 @@
-button.btn-sm, a.btn-sm{
+button.btn-sm, a.btn-sm {
     line-height: 2;
     border-radius: 10px;
-    
 }
 
 option {
     font-weight: bolder;
 }
-

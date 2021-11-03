@@ -9,9 +9,9 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-               
+
                 @Html.Raw(Model.Content)
-                
+
             </div>
         </div>
     </div>
@@ -19,24 +19,22 @@
 
 <hr />
 
-    <article>
-        <div class="text-center font-weight-bold h3">
-            Custom Post Tags
-        </div>
-        <div class="col text-center">
-            @foreach(var tag in Model.Tags)
-            {
-                <a asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()"></a>
-            }
-        </div>
-    
-    </article>
+<article>
+    <div class="text-center font-weight-bold h3">
+        Custom Post Tags
+    </div>
+    <div class="col text-center">
+        @foreach (var tag in Model.Tags)
+        {
+            <a class="btn btn-warning btn-sm btn-block" asp-action="TagIndex" asp-route-tag="@tag.Text"></a>
+        }
+    </div>
+
+</article>
 
 <hr />
 
 
 
-
-<!-- Displaying Comments related to this Post-->
-
-<!-- Display the image of the Comment´s Author-->
+    <!-- Displaying Comments related to this Post-->
+    <!-- Display the image of the Comment´s Author-->
