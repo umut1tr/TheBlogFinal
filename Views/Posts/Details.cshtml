@@ -26,7 +26,7 @@
         <div class="col text-center">
             @foreach(var tag in Model.Tags)
             {
-                <a class="btn btn-warning btn-sm btn-outline-dark" asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()"></a>
+                <a asp-action="TagIndex" asp-route-tag="@tag.Text.ToLower()"></a>
             }
         </div>
     
