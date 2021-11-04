@@ -43,7 +43,7 @@ namespace TheBlogFinal.Models
 
         //Navigation property
         [Display (Name = "Author")]
-        public virtual BlogUser BlogUser { get; set; } // parent class ,, USERNAME is UNIQUE and will be used to track
+        public virtual BlogUser BlogUser { get; set; } // , USERNAME is UNIQUE and will be used to track
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>(); // HashSet implementing ICollection for Posts
 
     }

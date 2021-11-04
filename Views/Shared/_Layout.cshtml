@@ -58,6 +58,16 @@
                     <div class="site-heading">
                         <h1>The Blog</h1>
                         <span class="subheading">using .Net 5 / MVC & Bootstrap 5</span>
+
+                        <form asp-action="SearchIndex" asp-controller="Posts">
+                            <div class="input-group mt-5">
+                                <input type="text" name="SearchTerm" class="form-control" placeholder="Search Term">
+                                <div class="input-group-append">
+                                    <button class="btn btn-warning btn-block btn-sm" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

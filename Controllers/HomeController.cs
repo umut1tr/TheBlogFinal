@@ -36,6 +36,7 @@ namespace TheBlogFinal.Controllers
 
 
             var blogs = _context.Blogs
+                .Include(b => b.BlogUser)
                 .OrderByDescending(b => b.Created)
                 .ToPagedListAsync(pageNumber, pageSize);
 

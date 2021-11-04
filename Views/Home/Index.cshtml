@@ -55,7 +55,7 @@
 <div class="row">
     <div class="col">
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
-    new PagedListRenderOptionsBase
+            new PagedListRenderOptions
     {
         LiElementClasses = new string[] { "page-item" },
 

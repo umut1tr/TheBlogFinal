@@ -52,6 +52,7 @@ namespace TheBlogFinal
 
             // Register custom DataService class
             services.AddScoped<DataService>();
+            services.AddScoped<BlogSearchService>();
 
 
             // Register a preconfigured instance of the MailSettings class
@@ -63,6 +64,8 @@ namespace TheBlogFinal
 
             // Register Slug Service
             services.AddScoped<ISlugService, BasicSlugService > ();
+
+
 
 
         }
