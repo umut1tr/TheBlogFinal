@@ -10,6 +10,7 @@ using TheBlogFinal.Data;
 using TheBlogFinal.Models;
 using TheBlogFinal.Services;
 using TheBlogFinal.ViewModels;
+using X.PagedList;
 
 namespace TheBlogFinal.Controllers
 {
@@ -28,15 +29,17 @@ namespace TheBlogFinal.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var blogs = await _context.Blogs
-                .Include(b => b.BlogUser)
-                .ToListAsync();
+            var pageNumber = page ?? 1;
+            var pageSize = 5;
 
 
+            var blogs = _context.Blogs
+                .OrderByDescending(b => b.Created)
+                .ToPagedListAsync(pageNumber, pageSize);
 
-            return View(blogs);
+            return View(await blogs);
         }
 
         public IActionResult About()

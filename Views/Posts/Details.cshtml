@@ -23,12 +23,13 @@
     <div class="text-center font-weight-bold h3">
         Custom Post Tags
     </div>
-    <div class="col text-center">
+    <div class="col text-center">        
         @foreach (var tag in Model.Tags)
         {
-            <a class="btn btn-warning btn-sm btn-block" asp-action="TagIndex" asp-route-tag="@tag.Text"></a>
+            <a class="btn btn-warning rounded-3 font-weight-bold text-capitalize" asp-action="TagIndex" asp-route-tag="@tag.Text.ToUpper()">#@tag.Text.ToUpper()</a>
         }
     </div>
+
 
 </article>
 
