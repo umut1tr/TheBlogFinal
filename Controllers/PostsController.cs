@@ -14,7 +14,7 @@ using TheBlogFinal.Enums;
 using X.PagedList;
 using X.PagedList.Mvc.Core;
 using X.PagedList.Web.Common;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TheBlogFinal.Controllers
 {
@@ -88,6 +88,8 @@ namespace TheBlogFinal.Controllers
                 .Include(p => p.Blog)
                 .Include(p => p.BlogUser)
                 .Include(p=> p.Tags)
+                .Include(p => p.Comments)                          
+                .ThenInclude(c => c.BlogUser)                
                 .FirstOrDefaultAsync(m => m.Slug == slug);
             if (post == null)
             {
@@ -97,6 +99,7 @@ namespace TheBlogFinal.Controllers
             return View(post);
         }
 
+        
         // GET: Posts/Create
         public IActionResult Create()
         {
@@ -110,7 +113,7 @@ namespace TheBlogFinal.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]        
         public async Task<IActionResult> Create([Bind("BlogId,Title,Abstract,Content,ReadyStatus,Image")] Post post, List<string> tagValues)
         {
             if (ModelState.IsValid)
