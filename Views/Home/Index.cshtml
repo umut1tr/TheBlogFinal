@@ -1,9 +1,15 @@
 ﻿@using TheBlogFinal.Models
+@using TheBlogFinal.Services
+@using TheBlogFinal.Enums 
+@using Microsoft
 @using X.PagedList
 @using X.PagedList.Mvc.Core
 @using X.PagedList.Web.Common
 
 @model IPagedList<Blog>
+
+@inject IImageService _imageService 
+@inject UserManager<BlogUser> _userManager
 
 @{
     ViewData["Title"] = "Home Page";

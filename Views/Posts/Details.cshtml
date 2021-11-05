@@ -78,7 +78,7 @@
 <!-- Display the image of the Comment´s Author-->
 <button id="commentSection" class="btn btn-sm btn-dark btn-block form-control">@Model.Comments.Count COMMENTS(S)</button>
 
-@{var counter = 0; }
+
 <!-- EDIT BUTTON PART-->
 @foreach (var comment in Model.Comments)
  {
@@ -102,7 +102,7 @@
                     {
                         <span class="small font-italic">Posted : @comment.Created.ToString("dd MMM, yyyy")</span>
                     }
-                    <p>@comment.Body</p>
+                    <p>@comment.Body</p>                    
                 </i>
             </small>           
 
@@ -122,7 +122,7 @@
                 <hr />
                 <div class="row">
                     <div class="col-2">
-                        <button type="button" class="btn-sm btn-dark font-weight-bold btn-block" data-bs-toggle="modal" data-bs-target="#@($"moderateModal{counter}")">MODERATE</button>
+                        <button type="button" class="btn-sm btn-dark font-weight-bold btn-block" data-bs-toggle="modal" data-bs-target="#moderateModal">MODERATE</button>
                     </div>
                     <div class="col-2">
                         <form asp-action="Delete" asp-controller="Comments">
@@ -170,7 +170,7 @@
         </div>
     </div>         
     
-    <div class="modal" id="@($"moderateModal{counter}")">
+    <div class="modal" id="moderateModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!--MODAL HEADER-->
@@ -187,12 +187,10 @@
                             <label class="custom-control-label">Original Comment</label>
                             <textarea disabled class="form-control" style="resize:none" required>@comment.Body</textarea>
                         </div>
-
                         <div class="form-group">
                             <label class="custom-control-label">Moderated Comment</label>
-                            <textarea class="form-control" style="resize:none">@comment.ModeratedBody</textarea>
+                            <textarea class="form-control" style="resize:none" required>@comment.ModeratedBody</textarea>
                         </div>
-
                         <div class="form-group">
                             <label class="custom-control-label">Reason for Moderation</label>
                             <select class="form-control" asp-for="@comment.ModerationType" name="ModerationType" asp-items="Html.GetEnumSelectList<ModerationType>()"style="resize:none" required>@comment.Body</select>
@@ -200,10 +198,10 @@
 
                         <div class="form-group">
                             <div class="row form-control">
-                                <button class="btn-sm btn-block btn-dark border-success font-weight-bold" type="submit">SUBMIT</button>
+                                <button type="submit" class="btn-primary btn-block btn-dark border-success font-weight-bold">SUBMIT</button>
                             </div>
                             <div class="form-group form-control">
-                                <button class="btn-sm btn-block btn-dark border-success font-weight-bold" type="button" data-bs-dismiss="modal">CLOSE</button>
+                                <button class="btn-sm btn-secondary btn-block btn-dark border-success font-weight-bold" type="button" data-bs-dismiss="modal">CLOSE</button>
                             </div>
                         </div>
 
@@ -216,7 +214,7 @@
     </div>
 
 
-    counter++;
+   
 }
 
 
