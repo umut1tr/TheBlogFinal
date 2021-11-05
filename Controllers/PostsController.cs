@@ -99,7 +99,7 @@ namespace TheBlogFinal.Controllers
             return View(post);
         }
 
-        
+        [Authorize(Roles = "Administrator, Moderator")]
         // GET: Posts/Create
         public IActionResult Create()
         {
@@ -191,6 +191,7 @@ namespace TheBlogFinal.Controllers
             return View(post);
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         // GET: Posts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -212,6 +213,7 @@ namespace TheBlogFinal.Controllers
             return View(post);
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         // POST: Posts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -297,6 +299,7 @@ namespace TheBlogFinal.Controllers
             return View(post);
         }
 
+        [Authorize(Roles = "Administrator, Moderator")]
         // GET: Posts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -320,6 +323,7 @@ namespace TheBlogFinal.Controllers
         // POST: Posts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Moderator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var post = await _context.Posts.FindAsync(id);
